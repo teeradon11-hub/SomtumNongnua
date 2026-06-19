@@ -3,73 +3,1046 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SomtumNongnua Expense Dashboard</title>
-<link rel="stylesheet" href="style.css">
+
+<title>KHUB Expense Lite</title>
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
+}
+
+body{
+background:#F4F8F4;
+max-width:700px;
+margin:auto;
+padding:16px;
+color:#1F2937;
+}
+
+.header{
+margin-bottom:18px;
+}
+
+.title{
+font-size:28px;
+font-weight:700;
+color:#16A34A;
+}
+
+.subtitle{
+font-size:14px;
+color:#6B7280;
+margin-top:4px;
+}
+
+.card{
+background:white;
+padding:18px;
+border-radius:22px;
+box-shadow:0 2px 10px rgba(0,0,0,.05);
+margin-bottom:16px;
+}
+
+.bigCard{
+background:#22C55E;
+color:white;
+}
+
+.bigLabel{
+font-size:14px;
+opacity:.9;
+}
+
+.bigNumber{
+font-size:42px;
+font-weight:700;
+margin-top:8px;
+}
+
+.compare{
+font-size:13px;
+margin-top:8px;
+opacity:.95;
+}
+
+.grid2{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:14px;
+margin-bottom:16px;
+}
+
+.label{
+font-size:14px;
+color:#6B7280;
+}
+
+.value{
+font-size:26px;
+font-weight:700;
+margin-top:8px;
+}
+
+.section{
+font-size:18px;
+font-weight:700;
+margin-bottom:16px;
+}
+
+.filterRow{
+display:flex;
+gap:8px;
+overflow:auto;
+margin-bottom:12px;
+}
+
+.chip{
+padding:10px 16px;
+background:#DCFCE7;
+color:#15803D;
+border-radius:999px;
+white-space:nowrap;
+font-size:14px;
+}
+
+.searchBox{
+width:100%;
+padding:14px;
+border:none;
+outline:none;
+background:#F3F4F6;
+border-radius:16px;
+font-size:15px;
+}
+
+.progress{
+height:14px;
+background:#DCFCE7;
+border-radius:999px;
+overflow:hidden;
+}
+
+.fill{
+height:100%;
+background:#22C55E;
+border-radius:999px;
+}
+
+.fill2{
+height:100%;
+background:#86EFAC;
+border-radius:999px;
+}
+
+.recentItem{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:14px 0;
+border-bottom:1px solid #F3F4F6;
+}
+
+.recentItem:last-child{
+border-bottom:none;
+}
+
+.recentTitle{
+font-size:15px;
+font-weight:600;
+}
+
+.recentCat{
+font-size:13px;
+color:#6B7280;
+margin-top:4px;
+}
+
+.recentAmount{
+font-size:15px;
+font-weight:700;
+color:#16A34A;
+}
+
+</style>
 </head>
 <body>
+
 <div class="header">
-  <div class="headerLeft">
-    <div class="title">🌶️ SomtumNongnua Dashboard</div>
-    <div class="subtitle">แดชบอร์ดค่าใช้จ่ายร้านส้มตำ</div>
-  </div>
-  <div class="headerRight">
-    <div class="lastUpdate" id="lastUpdate">-</div>
-    <button class="refreshBtn" onclick="loadData(true)">↻ รีเฟรช</button>
-  </div>
+
+<div class="title">
+🌿 KHUB Expense Lite
 </div>
 
-<!-- Hero -->
-<div class="card hero">
-  <div class="heroTitle">ค่าใช้จ่ายเดือนนี้</div>
-  <div class="heroAmount" id="monthTotal">฿0</div>
-  <div class="heroMeta">
-    <div class="heroMetaItem" id="heroBillCount">0 บิล</div>
-    <div class="heroMetaItem" id="heroAvg">เฉลี่ย ฿0/บิล</div>
-    <div class="heroMetaItem" id="heroPct">-</div>
-  </div>
-  <div class="heroSub" id="compareText">-</div>
+<div class="subtitle">
+แดชบอร์ดค่าใช้จ่ายร้านส้มตำ
 </div>
 
-<!-- KPI Grid -->
-<div class="kpiGrid" style="margin-bottom:18px;" id="kpiGrid">
-  <div class="kpiCard"><div class="kpiLabel">📅 เดือนก่อน</div><div class="kpiValue" id="lastMonth">฿0</div></div>
-  <div class="kpiCard"><div class="kpiLabel">📈 ปีนี้</div><div class="kpiValue" id="yearTotal">฿0</div></div>
-  <div class="kpiCard"><div class="kpiLabel">📆 วันนี้</div><div class="kpiValue" id="todayTotal">฿0</div></div>
-  <div class="kpiCard"><div class="kpiLabel">🗓 7 วันล่าสุด</div><div class="kpiValue" id="week7Total">฿0</div></div>
-  <div class="kpiCard"><div class="kpiLabel">📊 เฉลี่ย/วัน</div><div class="kpiValue" id="avgDay">฿0</div></div>
-  <div class="kpiCard"><div class="kpiLabel">🏪 จำนวนร้านค้า</div><div class="kpiValue" id="shopCount">0</div></div>
 </div>
 
-<!-- Search -->
+<div class="card bigCard">
+
+<div class="bigLabel">
+ค่าใช้จ่ายเดือนนี้
+</div>
+
+<div class="bigNumber" id="monthTotal">
+฿0
+</div>
+
+<div class="compare" id="compareText">
+-
+</div>
+
+</div>
+
+<div class="grid2">
+
 <div class="card">
-  <div class="section">🔍 ค้นหารายการ</div>
-  <input class="searchBox" id="searchBox" placeholder="ค้นหารายการ หรือ ร้านค้า...">
+
+<div class="label">
+เดือนก่อน
 </div>
 
-<!-- Filter ช่วงเวลา -->
+<div class="value" id="lastMonth">
+฿0
+</div>
+
+</div>
+
 <div class="card">
-  <div class="section">📅 ช่วงเวลา</div>
-  <div class="chipWrap">
-    <div class="chip active" data-range="all">ทั้งหมด</div>
-    <div class="chip" data-range="today">วันนี้</div>
-    <div class="chip" data-range="7days">7 วัน</div>
-    <div class="chip" data-range="month">เดือนนี้</div>
-    <div class="chip" data-range="year">ปีนี้</div>
-  </div>
+
+<div class="label">
+ปีนี้
 </div>
 
-<!-- Filter หมวด -->
+<div class="value" id="yearTotal">
+฿0
+</div>
+
+</div>
+
+</div>
+
 <div class="card">
-  <div class="section">📦 หมวดหมู่</div>
-  <div class="chipWrap" id="categoryChip"></div>
+
+<div class="section">
+🔍 ค้นหารายการ
 </div>
 
-<!-- Dynamic sections -->
-<div id="insightCard"></div>
+<div class="filterRow">
+
+<div class="chip">
+ทั้งหมด
+</div>
+
+<div class="chip">
+วันนี้
+</div>
+
+<div class="chip">
+7 วัน
+</div>
+
+<div class="chip">
+เดือนนี้
+</div>
+
+</div>
+
+<div class="filterRow">
+
+<div class="chip">
+วัตถุดิบ
+</div>
+
+<div class="chip">
+เครื่องดื่ม
+</div>
+
+<div class="chip">
+บรรจุภัณฑ์
+</div>
+
+<div class="chip">
+ค่าใช้จ่ายร้าน
+</div>
+
+<div class="chip">
+อื่นๆ
+</div>
+
+</div>
+
+<input
+class="searchBox"
+placeholder="ค้นหารายการ หรือ ร้านค้า..."
+>
+
+</div>
+
 <div id="topCategory"></div>
-<div id="topShop"></div>
+
 <div id="monthlyChart"></div>
+
+<div id="insightCard"></div>
+
 <div id="recentList"></div>
-<script src="app.js"></script>
+
+<script>
+const SHEET_ID = '10D-GwPgOJ98JU-rTyzonTYsM8Gg6mTzluqy6Q5nJoCA';
+const SHEET_NAME = 'รวม';
+
+const CACHE_KEY = 'khub_expense_v1';
+const CACHE_TTL = 5 * 60 * 1000;
+
+let DATA = [];
+
+const thMonth = [
+'ม.ค.','ก.พ.','มี.ค.','เม.ย.',
+'พ.ค.','มิ.ย.','ก.ค.','ส.ค.',
+'ก.ย.','ต.ค.','พ.ย.','ธ.ค.'
+];
+
+function money(n){
+return '฿'+Number(n).toLocaleString(
+'th-TH',
+{
+maximumFractionDigits:0
+}
+);
+}
+
+function parseAmount(v){
+
+if(!v) return 0;
+
+return parseFloat(
+String(v).replace(/,/g,'')
+) || 0;
+
+}
+
+function parseDate(v){
+
+if(!v) return null;
+
+const m = String(v)
+.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+
+if(m){
+
+return new Date(
++m[3],
++m[2]-1,
++m[1]
+);
+
+}
+
+const d = new Date(v);
+
+if(isNaN(d)) return null;
+
+return d;
+
+}
+
+function saveCache(data){
+
+localStorage.setItem(
+CACHE_KEY,
+JSON.stringify({
+time:Date.now(),
+data
+})
+);
+
+}
+
+function loadCache(){
+
+try{
+
+const c = JSON.parse(
+localStorage.getItem(CACHE_KEY)
+);
+
+if(!c) return null;
+
+if(
+Date.now()-c.time > CACHE_TTL
+)
+return null;
+
+return c.data;
+
+}
+catch{
+
+return null;
+
+}
+
+}
+
+async function fetchSheet(){
+
+const url =
+`https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(SHEET_NAME)}&_=${Date.now()}`;
+
+const res = await fetch(url);
+
+const txt = await res.text();
+
+const json = JSON.parse(
+txt.substring(
+txt.indexOf('{'),
+txt.lastIndexOf('}')+1
+)
+);
+
+const cols =
+json.table.cols.map(
+c=>c.label||''
+);
+
+return json.table.rows.map(r=>{
+
+const obj = {};
+
+r.c.forEach((cell,i)=>{
+
+obj[cols[i]] =
+cell
+?
+(cell.f ?? cell.v)
+:
+null;
+
+});
+
+return obj;
+
+});
+
+}
+
+function processRows(rows){
+
+return rows.map(r=>{
+
+return{
+
+date:parseDate(
+r['วันที่']
+),
+
+amount:parseAmount(
+r['ยอดเงิน']
+),
+
+category:String(
+r['หมวดหมู่']
+||
+'อื่นๆ'
+),
+
+detail:String(
+r['รายละเอียด']
+||
+''
+),
+
+shop:String(
+r['ร้านค้า/ผู้รับเงิน']
+||
+''
+)
+
+};
+
+})
+.filter(
+x=>x.amount>0
+);
+
+}
+
+function renderSummary(){
+
+const now = new Date();
+
+const month = now.getMonth();
+
+const year = now.getFullYear();
+
+const thisMonth = DATA.filter(
+x=>
+x.date &&
+x.date.getMonth()===month &&
+x.date.getFullYear()===year
+);
+
+const prevMonth = DATA.filter(
+x=>
+x.date &&
+(
+month===0
+?
+(
+x.date.getMonth()===11
+&&
+x.date.getFullYear()===year-1
+)
+:
+(
+x.date.getMonth()===month-1
+&&
+x.date.getFullYear()===year
+)
+)
+);
+
+const yearData = DATA.filter(
+x=>
+x.date &&
+x.date.getFullYear()===year
+);
+
+const totalMonth =
+thisMonth.reduce(
+(s,x)=>s+x.amount,
+0
+);
+
+const totalPrev =
+prevMonth.reduce(
+(s,x)=>s+x.amount,
+0
+);
+
+const totalYear =
+yearData.reduce(
+(s,x)=>s+x.amount,
+0
+);
+
+document.getElementById(
+'monthTotal'
+).innerText =
+money(totalMonth);
+
+document.getElementById(
+'lastMonth'
+).innerText =
+money(totalPrev);
+
+document.getElementById(
+'yearTotal'
+).innerText =
+money(totalYear);
+
+const diff =
+totalMonth-totalPrev;
+
+document.getElementById(
+'compareText'
+).innerText =
+diff>=0
+?
+`▲ เพิ่มขึ้น ${money(diff)}`
+:
+`▼ ลดลง ${money(Math.abs(diff))}`;
+
+}
+
+async function loadData(){
+
+try{
+
+const cache = loadCache();
+
+if(cache){
+
+DATA = cache;
+
+renderSummary();
+
+}
+
+const rows =
+await fetchSheet();
+
+DATA =
+processRows(rows);
+
+saveCache(DATA);
+
+renderSummary();
+
+renderTopCategory();
+
+renderMonthlyChart();
+
+renderInsight();
+
+renderRecent();
+
+}
+catch(err){
+
+console.log(err);
+
+}
+
+}
+
+loadData();
+
+setInterval(
+loadData,
+5*60*1000
+);
+function renderTopCategory(){
+
+const box =
+document.getElementById(
+'topCategory'
+);
+
+const now = new Date();
+
+const monthData =
+DATA.filter(
+x=>
+x.date &&
+x.date.getMonth()===now.getMonth() &&
+x.date.getFullYear()===now.getFullYear()
+);
+
+const cat = {};
+
+monthData.forEach(x=>{
+
+cat[x.category] =
+(cat[x.category]||0)
++
+x.amount;
+
+});
+
+const arr =
+Object.entries(cat)
+.sort(
+(a,b)=>b[1]-a[1]
+)
+.slice(0,5);
+
+const max =
+arr.length
+?
+arr[0][1]
+:
+1;
+
+box.innerHTML = `
+
+<div class="card">
+
+<div class="section">
+🔥 Top 5 หมวดค่าใช้จ่าย
+</div>
+
+${arr.map(x=>`
+
+<div style="margin-bottom:18px">
+
+<div style="
+display:flex;
+justify-content:space-between;
+margin-bottom:8px;
+font-size:14px;
+">
+
+<div>
+${x[0]}
+</div>
+
+<div>
+${money(x[1])}
+</div>
+
+</div>
+
+<div class="progress">
+
+<div
+class="fill"
+style="
+width:${
+Math.round(
+x[1]/max*100
+)
+}%;
+">
+</div>
+
+</div>
+
+</div>
+
+`).join('')}
+
+</div>
+
+`;
+
+}
+
+
+
+function renderMonthlyChart(){
+
+const box =
+document.getElementById(
+'monthlyChart'
+);
+
+const year =
+new Date().getFullYear();
+
+const months =
+Array(12).fill(0);
+
+DATA.forEach(x=>{
+
+if(
+x.date &&
+x.date.getFullYear()===year
+){
+
+months[
+x.date.getMonth()
+]
++=
+x.amount;
+
+}
+
+});
+
+const max =
+Math.max(
+...months,
+1
+);
+
+box.innerHTML = `
+
+<div class="card">
+
+<div class="section">
+📊 รายจ่ายรายเดือน
+</div>
+
+${months.map((v,i)=>`
+
+<div style="margin-bottom:16px">
+
+<div style="
+display:flex;
+justify-content:space-between;
+font-size:14px;
+margin-bottom:6px;
+">
+
+<div>
+${thMonth[i]}
+</div>
+
+<div>
+${money(v)}
+</div>
+
+</div>
+
+<div class="progress">
+
+<div
+class="fill2"
+style="
+width:${
+Math.round(
+v/max*100
+)
+}%;
+">
+</div>
+
+</div>
+
+</div>
+
+`).join('')}
+
+</div>
+
+`;
+
+}
+
+
+
+function renderInsight(){
+
+const box =
+document.getElementById(
+'insightCard'
+);
+
+const now =
+new Date();
+
+const month =
+now.getMonth();
+
+const year =
+now.getFullYear();
+
+const thisMonth =
+DATA.filter(
+x=>
+x.date &&
+x.date.getMonth()===month &&
+x.date.getFullYear()===year
+);
+
+const prevMonth =
+DATA.filter(
+x=>
+x.date &&
+(
+month===0
+?
+(
+x.date.getMonth()===11
+&&
+x.date.getFullYear()===year-1
+)
+:
+(
+x.date.getMonth()===month-1
+&&
+x.date.getFullYear()===year
+)
+)
+);
+
+const totalThis =
+thisMonth.reduce(
+(s,x)=>s+x.amount,
+0
+);
+
+const totalPrev =
+prevMonth.reduce(
+(s,x)=>s+x.amount,
+0
+);
+
+const diff =
+totalThis-totalPrev;
+
+let message='';
+
+if(diff>0){
+
+message=
+`
+เดือนนี้ใช้เพิ่มขึ้น
+
+${money(diff)}
+
+เมื่อเทียบกับเดือนก่อน
+`;
+
+}
+else{
+
+message=
+`
+เดือนนี้ใช้ลดลง
+
+${money(Math.abs(diff))}
+
+เมื่อเทียบกับเดือนก่อน
+`;
+
+}
+
+box.innerHTML = `
+
+<div class="card">
+
+<div class="section">
+⚠️ สิ่งที่ควรดู
+</div>
+
+<div style="
+line-height:1.9;
+color:#166534;
+font-size:16px;
+">
+
+${message}
+
+</div>
+
+</div>
+
+`;
+
+}
+function renderRecent(){
+
+const box =
+document.getElementById(
+'recentList'
+);
+
+const recent =
+[...DATA]
+.sort(
+(a,b)=>
+(b.date||0)-(a.date||0)
+)
+.slice(0,10);
+
+box.innerHTML = `
+
+<div class="card">
+
+<div class="section">
+🕒 10 รายการล่าสุด
+</div>
+
+${recent.map(x=>`
+
+<div class="recentItem">
+
+<div>
+
+<div class="recentTitle">
+${x.detail || x.shop}
+</div>
+
+<div class="recentCat">
+${x.category}
+</div>
+
+</div>
+
+<div class="recentAmount">
+${money(x.amount)}
+</div>
+
+</div>
+
+`).join('')}
+
+</div>
+
+`;
+
+}
+
+
+
+const searchBox =
+document.querySelector(
+'.searchBox'
+);
+
+searchBox.addEventListener(
+'input',
+function(){
+
+const keyword =
+this.value
+.toLowerCase()
+.trim();
+
+if(!keyword){
+
+renderRecent();
+
+return;
+
+}
+
+const result =
+DATA.filter(x=>
+
+(x.detail||'')
+.toLowerCase()
+.includes(keyword)
+
+||
+
+(x.shop||'')
+.toLowerCase()
+.includes(keyword)
+
+)
+
+.slice(0,20);
+
+document.getElementById(
+'recentList'
+).innerHTML = `
+
+<div class="card">
+
+<div class="section">
+🔍 ผลการค้นหา
+</div>
+
+${result.map(x=>`
+
+<div class="recentItem">
+
+<div>
+
+<div class="recentTitle">
+${x.detail || x.shop}
+</div>
+
+<div class="recentCat">
+${x.category}
+</div>
+
+</div>
+
+<div class="recentAmount">
+${money(x.amount)}
+</div>
+
+</div>
+
+`).join('')}
+
+</div>
+
+`;
+
+}
+);
+
+</script>
+
 </body>
 </html>
