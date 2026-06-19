@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SomtumNongnua Expense Dashboard</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="header">
+  <div class="headerLeft">
+    <div class="title">🌶️ SomtumNongnua Dashboard</div>
+    <div class="subtitle">แดชบอร์ดค่าใช้จ่ายร้านส้มตำ</div>
+  </div>
+  <div class="headerRight">
+    <div class="lastUpdate" id="lastUpdate">-</div>
+    <button class="refreshBtn" onclick="loadData(true)">↻ รีเฟรช</button>
+  </div>
+</div>
+
+<!-- Hero -->
+<div class="card hero">
+  <div class="heroTitle">ค่าใช้จ่ายเดือนนี้</div>
+  <div class="heroAmount" id="monthTotal">฿0</div>
+  <div class="heroMeta">
+    <div class="heroMetaItem" id="heroBillCount">0 บิล</div>
+    <div class="heroMetaItem" id="heroAvg">เฉลี่ย ฿0/บิล</div>
+    <div class="heroMetaItem" id="heroPct">-</div>
+  </div>
+  <div class="heroSub" id="compareText">-</div>
+</div>
+
+<!-- KPI Grid -->
+<div class="kpiGrid" style="margin-bottom:18px;" id="kpiGrid">
+  <div class="kpiCard"><div class="kpiLabel">📅 เดือนก่อน</div><div class="kpiValue" id="lastMonth">฿0</div></div>
+  <div class="kpiCard"><div class="kpiLabel">📈 ปีนี้</div><div class="kpiValue" id="yearTotal">฿0</div></div>
+  <div class="kpiCard"><div class="kpiLabel">📆 วันนี้</div><div class="kpiValue" id="todayTotal">฿0</div></div>
+  <div class="kpiCard"><div class="kpiLabel">🗓 7 วันล่าสุด</div><div class="kpiValue" id="week7Total">฿0</div></div>
+  <div class="kpiCard"><div class="kpiLabel">📊 เฉลี่ย/วัน</div><div class="kpiValue" id="avgDay">฿0</div></div>
+  <div class="kpiCard"><div class="kpiLabel">🏪 จำนวนร้านค้า</div><div class="kpiValue" id="shopCount">0</div></div>
+</div>
+
+<!-- Search -->
+<div class="card">
+  <div class="section">🔍 ค้นหารายการ</div>
+  <input class="searchBox" id="searchBox" placeholder="ค้นหารายการ หรือ ร้านค้า...">
+</div>
+
+<!-- Filter ช่วงเวลา -->
+<div class="card">
+  <div class="section">📅 ช่วงเวลา</div>
+  <div class="chipWrap">
+    <div class="chip active" data-range="all">ทั้งหมด</div>
+    <div class="chip" data-range="today">วันนี้</div>
+    <div class="chip" data-range="7days">7 วัน</div>
+    <div class="chip" data-range="month">เดือนนี้</div>
+    <div class="chip" data-range="year">ปีนี้</div>
+  </div>
+</div>
+
+<!-- Filter หมวด -->
+<div class="card">
+  <div class="section">📦 หมวดหมู่</div>
+  <div class="chipWrap" id="categoryChip"></div>
+</div>
+
+<!-- Dynamic sections -->
+<div id="insightCard"></div>
+<div id="topCategory"></div>
+<div id="topShop"></div>
+<div id="monthlyChart"></div>
+<div id="recentList"></div>
+<script src="app.js"></script>
+</body>
+</html>
