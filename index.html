@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#16A34A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>KHUB · ร้านส้มตำ</title>
+<style>
+:root{
+  --g:#16A34A; --g2:#22C55E; --g3:#DCFCE7;
+  --r:#DC2626; --b:#2563EB; --bg:#F0F7F1; --t:#1F2937; --m:#6B7280;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+  background:var(--bg); color:var(--t);
+  max-width:480px; margin:0 auto;
+  padding:12px 12px 32px;
+  font-size:15px; line-height:1.4;
+  -webkit-font-smoothing:antialiased;
+}
+.hd{margin-bottom:12px}
+.hd h1{font-size:22px;font-weight:700;color:var(--g)}
+.hd p{font-size:12px;color:var(--m);margin-top:2px}
+.card{
+  background:#fff; border-radius:16px;
+  padding:14px; margin-bottom:10px;
+  box-shadow:0 1px 4px rgba(0,0,0,.04);
+}
+.hero{
+  background:linear-gradient(145deg,#16A34A,#22C55E);
+  color:#fff; border-radius:18px; padding:16px;
+  margin-bottom:10px;
+}
+.hero .lbl{font-size:12px;opacity:.9}
+.hero .grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:10px}
+.hero .n{font-size:18px;font-weight:700;margin-top:2px}
+.hero .note{font-size:12px;margin-top:10px;opacity:.95}
+.row3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:10px}
+.mini{text-align:center;padding:12px 8px}
+.mini .lbl{font-size:11px;color:var(--m)}
+.mini .n{font-size:16px;font-weight:700;margin-top:4px}
+.sec{font-size:15px;font-weight:700;margin-bottom:10px}
+.cmp div{font-size:13px;margin-bottom:4px}
+.pos{color:var(--g);font-weight:600}
+.neg{color:var(--r);font-weight:600}
+.mut{color:var(--m)}
+.mrow{
+  display:grid; grid-template-columns:56px 1fr 1fr 1fr;
+  gap:4px; align-items:center;
+  padding:8px 0; border-bottom:1px solid #F3F4F6;
+  font-size:12px;
+}
+.mrow:last-child{border-bottom:none}
+.mrow.h{color:var(--m);font-weight:600;font-size:11px;padding-bottom:4px}
+.bar{height:10px;background:#E5E7EB;border-radius:99px;overflow:hidden;margin-top:4px}
+.bar>i{display:block;height:100%;background:var(--g2);border-radius:99px}
+.chips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;margin-bottom:8px;-webkit-overflow-scrolling:touch}
+.chips::-webkit-scrollbar{display:none}
+.chip{
+  flex:0 0 auto; padding:8px 12px;
+  background:var(--g3); color:#15803D;
+  border-radius:99px; font-size:12px; font-weight:600;
+  border:none; cursor:pointer;
+}
+.chip.on{background:var(--g);color:#fff}
+.inp{
+  width:100%; padding:11px 12px;
+  border:none; outline:none;
+  background:#F3F4F6; border-radius:12px;
+  font-size:14px;
+}
+.item{
+  display:flex; justify-content:space-between; align-items:center;
+  padding:10px 0; border-bottom:1px solid #F3F4F6;
+}
+.item:last-child{border-bottom:none}
+.item .t{font-size:13px;font-weight:600}
+.item .c{font-size:11px;color:var(--m);margin-top:2px}
+.item .a{font-size:13px;font-weight:700;color:var(--g);white-space:nowrap;margin-left:8px}
+.ins{font-size:13px;color:#166534;line-height:1.6}
+.chk{font-size:13px;line-height:1.7;color:#166534}
+.chk li{margin-left:16px}
+.load{text-align:center;padding:40px 16px;color:var(--m);font-size:14px}
+.hint{font-size:11px;color:var(--m);margin-top:8px}
+.upd{font-size:11px;color:var(--m);text-align:right;margin-top:6px}
+</style>
+</head>
+<body>
+<div class="hd">
+  <h1>🌿 KHUB</h1>
+  <p>ยอดขาย · รายจ่าย · กำไร</p>
+</div>
+
+<div id="load" class="card load">กำลังโหลด...</div>
+<div id="app" style="display:none">
+
+  <!-- วันนี้ -->
+  <div class="hero">
+    <div class="lbl">วันนี้</div>
+    <div class="grid">
+      <div><div class="lbl">ยอดขาย</div><div class="n" id="tS">฿0</div></div>
+      <div><div class="lbl">รายจ่าย</div><div class="n" id="tE">฿0</div></div>
+      <div><div class="lbl">กำไร</div><div class="n" id="tP">฿0</div></div>
+    </div>
+    <div class="note" id="tN">—</div>
+  </div>
+
+  <!-- เดือนนี้ -->
+  <div class="row3">
+    <div class="card mini">
+      <div class="lbl">ขายเดือนนี้</div>
+      <div class="n" id="mS" style="color:var(--b)">฿0</div>
+    </div>
+    <div class="card mini">
+      <div class="lbl">จ่ายเดือนนี้</div>
+      <div class="n" id="mE" style="color:var(--r)">฿0</div>
+    </div>
+    <div class="card mini">
+      <div class="lbl">กำไรเดือนนี้</div>
+      <div class="n" id="mP">฿0</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="sec">เทียบเดือนก่อน</div>
+    <div class="cmp" id="cmp"></div>
+  </div>
+
+  <div class="card">
+    <div class="sec">📊 รายเดือน</div>
+    <div class="mrow h">
+      <div>เดือน</div>
+      <div style="text-align:right">ขาย</div>
+      <div style="text-align:right">จ่าย</div>
+      <div style="text-align:right">กำไร</div>
+    </div>
+    <div id="tbl"></div>
+    <div class="hint">กำไร = ยอดขาย − รายจ่าย</div>
+  </div>
+
+  <div id="top"></div>
+  <div id="ins"></div>
+
+  <div class="card">
+    <div class="sec">👁️ ดูทุกวัน</div>
+    <ul class="chk">
+      <li>ยอดขายวันนี้ vs ค่าเฉลี่ย 7 วัน</li>
+      <li>รายจ่ายวัตถุดิบสูงผิดปกติไหม</li>
+      <li>กำไรวันนี้เป็นบวกหรือไม่</li>
+      <li>ราคา/รายการซ้ำที่พุ่ง</li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="sec">🔍 รายจ่าย</div>
+    <div class="chips" id="pChips">
+      <button class="chip on" data-p="all">ทั้งหมด</button>
+      <button class="chip" data-p="today">วันนี้</button>
+      <button class="chip" data-p="7d">7 วัน</button>
+      <button class="chip" data-p="month">เดือนนี้</button>
+    </div>
+    <div class="chips" id="cChips">
+      <button class="chip on" data-c="all">ทุกหมวด</button>
+      <button class="chip" data-c="วัตถุดิบ">วัตถุดิบ</button>
+      <button class="chip" data-c="เครื่องดื่ม">เครื่องดื่ม</button>
+      <button class="chip" data-c="บรรจุภัณฑ์">บรรจุภัณฑ์</button>
+      <button class="chip" data-c="ค่าใช้จ่ายร้าน">ค่าใช้จ่ายร้าน</button>
+      <button class="chip" data-c="อื่นๆ">อื่นๆ</button>
+    </div>
+    <input class="inp" id="q" placeholder="ค้นหารายการ / ร้าน..." inputmode="search">
+  </div>
+  <div id="list"></div>
+  <div class="upd" id="upd"></div>
+</div>
+
+<script>
+const ID='10D-GwPgOJ98JU-rTyzonTYsM8Gg6mTzluqy6Q5nJoCA';
+const CK='khub_v3', TTL=5*60*1000;
+const TH=['ม.ค.','ก.พ.','มี.ค.','เม.ย.','พ.ค.','มิ.ย.','ก.ค.','ส.ค.','ก.ย.','ต.ค.','พ.ย.','ธ.ค.'];
+let EXP=[], SAL=[], pF='all', cF='all', kw='';
+
+const $=id=>document.getElementById(id);
+const money=n=>{
+  n=+n||0;
+  return (n<0?'-':'')+'฿'+Math.abs(n).toLocaleString('th-TH',{maximumFractionDigits:0});
+};
+const amt=v=>v==null||v===''?0:parseFloat(String(v).replace(/,/g,''))||0;
+
+function pDate(v){
+  if(!v) return null;
+  const s=String(v);
+  let m=s.match(/^Date\((\d+),(\d+),(\d+)/);
+  if(m) return new Date(+m[1],+m[2],+m[3]);
+  m=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})$/);
+  if(m) return new Date(+m[3],+m[2]-1,+m[1]);
+  m=s.match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(m) return new Date(+m[1],+m[2]-1,+m[3]);
+  const d=new Date(v); return isNaN(d)?null:d;
+}
+const same=(a,b)=>a&&b&&a.getFullYear()===b.getFullYear()&&a.getMonth()===b.getMonth()&&a.getDate()===b.getDate();
+const mk=d=>d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0');
+
+async function fetchSheet(name){
+  const u=`https://docs.google.com/spreadsheets/d/${ID}/gviz/tq?tqx=out:json&sheet=${encodeURIComponent(name)}&_=${Date.now()}`;
+  const t=await (await fetch(u)).text();
+  const j=JSON.parse(t.slice(t.indexOf('{'),t.lastIndexOf('}')+1));
+  const cols=j.table.cols.map(c=>c.label||'');
+  return j.table.rows.map(r=>{
+    const o={};
+    (r.c||[]).forEach((c,i)=>{ if(cols[i]) o[cols[i]]=c?(c.v??c.f):null; });
+    return o;
+  });
+}
+
+function prepExp(rows){
+  return rows.map(r=>({
+    d:pDate(r['วันที่']),
+    a:amt(r['ยอดเงิน']),
+    c:String(r['หมวดหมู่']||'อื่นๆ').trim()||'อื่นๆ',
+    t:String(r['รายละเอียด']||'').trim(),
+    s:String(r['ร้านค้า/ผู้รับเงิน']||'').trim(),
+    sub:String(r['หมวดย่อย']||'').trim()
+  })).filter(x=>x.a>0&&x.d);
+}
+function prepSal(rows){
+  return rows.map(r=>({d:pDate(r['วันที่']),a:amt(r['ยอดขาย'])})).filter(x=>x.a>0&&x.d);
+}
+const sum=(arr,fn)=>arr.reduce((s,x)=>fn(x)?s+x.a:s,0);
+
+function render(){
+  const now=new Date();
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  const M=now.getMonth(), Y=now.getFullYear();
+  const pM=M===0?11:M-1, pY=M===0?Y-1:Y;
+
+  const tS=sum(SAL,x=>same(x.d,today));
+  const tE=sum(EXP,x=>same(x.d,today));
+  const tP=tS-tE;
+  $('tS').textContent=money(tS);
+  $('tE').textContent=money(tE);
+  $('tP').textContent=money(tP);
+
+  let s7=0,d7=0;
+  for(let i=1;i<=7;i++){
+    const d=new Date(today); d.setDate(d.getDate()-i);
+    const v=sum(SAL,x=>same(x.d,d));
+    if(v>0){s7+=v;d7++;}
+  }
+  const avg=d7?s7/d7:0;
+  let note='ยังไม่มีข้อมูลวันนี้';
+  if(tS||tE){
+    if(avg&&tS){
+      const df=tS-avg;
+      note=df>=0?`ขายสูงกว่าเฉลี่ย 7 วัน ${money(df)}`:`ขายต่ำกว่าเฉลี่ย 7 วัน ${money(Math.abs(df))}`;
+    } else note=tP>=0?'วันนี้กำไรบวก':'วันนี้รายจ่าย > ยอดขาย';
+  }
+  $('tN').textContent=note;
+
+  const mS=sum(SAL,x=>x.d.getMonth()===M&&x.d.getFullYear()===Y);
+  const mE=sum(EXP,x=>x.d.getMonth()===M&&x.d.getFullYear()===Y);
+  const mP=mS-mE;
+  $('mS').textContent=money(mS);
+  $('mE').textContent=money(mE);
+  const el=$('mP'); el.textContent=money(mP); el.style.color=mP>=0?'var(--g)':'var(--r)';
+
+  const pS=sum(SAL,x=>x.d.getMonth()===pM&&x.d.getFullYear()===pY);
+  const pE=sum(EXP,x=>x.d.getMonth()===pM&&x.d.getFullYear()===pY);
+  const pP=pS-pE;
+  const dS=mS-pS, dE=mE-pE, dP=mP-pP;
+  $('cmp').innerHTML=`
+    <div>ขาย <span class="${dS>=0?'pos':'neg'}">${dS>=0?'▲':'▼'} ${money(Math.abs(dS))}</span> <span class="mut">(ก่อน ${money(pS)})</span></div>
+    <div>จ่าย <span class="${dE<=0?'pos':'neg'}">${dE<=0?'▼':'▲'} ${money(Math.abs(dE))}</span> <span class="mut">(ก่อน ${money(pE)})</span></div>
+    <div>กำไร <span class="${dP>=0?'pos':'neg'}">${dP>=0?'▲':'▼'} ${money(Math.abs(dP))}</span> <span class="mut">(ก่อน ${money(pP)})</span></div>`;
+
+  const keys=new Set();
+  SAL.forEach(x=>keys.add(mk(x.d)));
+  EXP.forEach(x=>keys.add(mk(x.d)));
+  const months=[...keys].sort().reverse();
+  const sMap={}, eMap={};
+  SAL.forEach(x=>{const k=mk(x.d);sMap[k]=(sMap[k]||0)+x.a});
+  EXP.forEach(x=>{const k=mk(x.d);eMap[k]=(eMap[k]||0)+x.a});
+  $('tbl').innerHTML=months.map(k=>{
+    const [y,m]=k.split('-');
+    const s=sMap[k]||0, e=eMap[k]||0, p=s-e;
+    return `<div class="mrow"><div>${TH[+m-1]} ${String(y).slice(2)}</div>
+      <div style="text-align:right;color:var(--b)">${money(s)}</div>
+      <div style="text-align:right;color:var(--r)">${money(e)}</div>
+      <div style="text-align:right" class="${p>=0?'pos':'neg'}">${money(p)}</div></div>`;
+  }).join('');
+
+  const cat={};
+  EXP.filter(x=>x.d.getMonth()===M&&x.d.getFullYear()===Y).forEach(x=>{cat[x.c]=(cat[x.c]||0)+x.a});
+  const arr=Object.entries(cat).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const maxC=arr[0]?arr[0][1]:1;
+  $('top').innerHTML=`<div class="card"><div class="sec">🔥 Top รายจ่ายเดือนนี้</div>${
+    arr.length?arr.map(([n,v])=>`<div style="margin-bottom:10px">
+      <div style="display:flex;justify-content:space-between;font-size:12px">
+        <span>${n}</span><span>${money(v)} <span class="mut">${Math.round(v/Math.max(mE,1)*100)}%</span></span>
+      </div>
+      <div class="bar"><i style="width:${Math.round(v/maxC*100)}%"></i></div>
+    </div>`).join(''):'<div class="mut">ยังไม่มีข้อมูล</div>'
+  }</div>`;
+
+  let insight='รอข้อมูลเพิ่มเติม';
+  if(mP<0) insight=`เดือนนี้ขาดทุน ${money(Math.abs(mP))} — ตรวจวัตถุดิบและค่าใช้จ่ายร้าน`;
+  else if(pP>0&&mP<pP*0.7) insight=`กำไรลดลงแรงจากเดือนก่อน — ดูต้นทุนหรือยอดขายชะลอ`;
+  else if(mS&&mE/mS>0.75) insight=`รายจ่าย ${Math.round(mE/mS*100)}% ของยอดขาย — คุมวัตถุดิบและค่าใช้จ่ายร้าน`;
+  else if(mP>0) insight=`กำไร ${money(mP)} (มาร์จิ้น ~${mS?Math.round(mP/mS*100):0}%) — รักษาระดับนี้`;
+  $('ins').innerHTML=`<div class="card"><div class="sec">⚠️ ควรรู้ตอนนี้</div><div class="ins">${insight}</div></div>`;
+
+  list();
+}
+
+function list(){
+  const now=new Date();
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  let L=[...EXP];
+  if(pF==='today') L=L.filter(x=>same(x.d,today));
+  else if(pF==='7d'){const f=new Date(today);f.setDate(f.getDate()-6);L=L.filter(x=>x.d>=f)}
+  else if(pF==='month') L=L.filter(x=>x.d.getMonth()===now.getMonth()&&x.d.getFullYear()===now.getFullYear());
+  if(cF!=='all') L=L.filter(x=>x.c===cF);
+  if(kw){const k=kw.toLowerCase();L=L.filter(x=>(x.t+x.s+x.sub).toLowerCase().includes(k))}
+  L.sort((a,b)=>b.d-a.d||b.a-a.a);
+  const tot=L.reduce((s,x)=>s+x.a,0);
+  const show=L.slice(0,30);
+  const title=kw?'ผลการค้นหา':pF==='today'?'วันนี้':pF==='7d'?'7 วัน':pF==='month'?'เดือนนี้':'ล่าสุด';
+  $('list').innerHTML=`<div class="card"><div class="sec">${title} <span class="mut" style="font-weight:500;font-size:12px">· ${L.length} ราย · ${money(tot)}</span></div>${
+    show.length?show.map(x=>`<div class="item">
+      <div><div class="t">${x.t||x.s||'—'}</div>
+      <div class="c">${x.c}${x.sub?' · '+x.sub:''} · ${x.d.getDate()}/${x.d.getMonth()+1}</div></div>
+      <div class="a">${money(x.a)}</div></div>`).join(''):'<div class="mut">ไม่พบรายการ</div>'
+  }</div>`;
+}
+
+async function load(){
+  try{
+    const c=JSON.parse(localStorage.getItem(CK)||'null');
+    if(c&&Date.now()-c.t<TTL&&c.e&&c.s){
+      EXP=c.e.map(x=>({...x,d:new Date(x.d)}));
+      SAL=c.s.map(x=>({...x,d:new Date(x.d)}));
+      $('load').style.display='none';
+      $('app').style.display='block';
+      render();
+    }
+    const [er,sr]=await Promise.all([fetchSheet('รวม'),fetchSheet('ยอดขาย')]);
+    EXP=prepExp(er); SAL=prepSal(sr);
+    localStorage.setItem(CK,JSON.stringify({
+      t:Date.now(),
+      e:EXP.map(x=>({...x,d:x.d.toISOString()})),
+      s:SAL.map(x=>({...x,d:x.d.toISOString()}))
+    }));
+    $('load').style.display='none';
+    $('app').style.display='block';
+    $('upd').textContent='อัปเดต '+new Date().toLocaleTimeString('th-TH',{hour:'2-digit',minute:'2-digit'});
+    render();
+  }catch(e){
+    console.error(e);
+    $('load').textContent='โหลดไม่สำเร็จ ลองรีเฟรช';
+  }
+}
+
+$('pChips').onclick=e=>{
+  const b=e.target.closest('.chip'); if(!b) return;
+  [...$('pChips').children].forEach(x=>x.classList.toggle('on',x===b));
+  pF=b.dataset.p; list();
+};
+$('cChips').onclick=e=>{
+  const b=e.target.closest('.chip'); if(!b) return;
+  [...$('cChips').children].forEach(x=>x.classList.toggle('on',x===b));
+  cF=b.dataset.c; list();
+};
+$('q').oninput=function(){kw=this.value.trim();list()};
+
+load();
+setInterval(load,5*60*1000);
+</script>
+</body>
+</html>
